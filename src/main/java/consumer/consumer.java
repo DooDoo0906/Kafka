@@ -8,19 +8,19 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ultiliities.Operation.Calculator;
+import ultiliities.calculator.Calculator;
 import ultiliities.validation.Validation;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class consumer {
+public class    consumer {
     public static void main(String[] args) {
         Logger logger= LoggerFactory.getLogger(consumer.class.getName());
         String bootstrapServers="127.0.0.1:9092";
         String grp_id="first_app";
-        String topic="my_first";
+        String topic="demo";
         //Creating consumer properties
         Properties properties=new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
@@ -39,18 +39,18 @@ public class consumer {
                 JsonObject param= new JsonObject(record.value());
                 if (Validation.isNumeric(String.valueOf(param.getValue("a"))) && Validation.isNumeric(String.valueOf(param.getValue("b")))) {
                     if (Validation.validateOpe(param.getDouble("b"),param.getString("ope")) == 1) {
-                        double m = Calculator.operation(param.getDouble("a"), param.getDouble("b"), param.getString("ope"));
-                        System.out.println("{"+param.getDouble("a")+", "+param.getDouble("b")+", "+ param.getString("ope")+"}");
-                        System.out.println("Result: "+m);
-                        logger.info("Key: "+ record.key() + ", Value:" +record.value());
-                        logger.info("Partition:" + record.partition()+",Offset:"+record.offset());
+                        double result = Calculator.operation(param.getDouble("a"), param.getDouble("b"), param.getString("ope"));
+                        logger.info(" Value: \n" +record.value());
+                        logger.info("Result: " +result);
                     } else if (Validation.validateOpe(param.getDouble("b"), param.getString("ope")) == 0) {
-                        System.out.println("You can't put 0 under the denominator");
+                        logger.info(" Value: \n" +record.value());
+                        logger.info("You can't put 0 under the denominator");
                     } else if (Validation.validateOpe(param.getDouble("b"), param.getString("ope")) == -1) {
-                        System.out.println("Please enter the right operation (+, -, x, :)");
+                        logger.info(" Value: \n" +record.value());
+                        logger.info("Please enter the right operation (+, -, x, :)");
                     }
                 } else {
-                    System.out.println("Error");
+                    logger.info("Error");
                 }
 
             }

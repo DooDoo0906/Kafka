@@ -17,10 +17,10 @@ public class producer {
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
         KafkaProducer<String,String> first_producer = new KafkaProducer<String, String>(properties);
         JsonObject object= new JsonObject();
-        object.put("a",1);
-        object.put("b",2);
+        object.put("a",9*10);
+        object.put("b",10101);
         object.put("ope","+");
-        ProducerRecord<String, String> record=new ProducerRecord<String, String>("my_first", object.encodePrettily());
+        ProducerRecord<String, String> record=new ProducerRecord<String, String>("demo", object.encodePrettily());
         first_producer.send(record);
         first_producer.flush();
         first_producer.close();
