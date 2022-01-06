@@ -32,7 +32,6 @@ public class    consumer {
         KafkaConsumer<String,String> consumer= new KafkaConsumer<String,String>(properties);
         //Subscribing
         consumer.subscribe(Arrays.asList(topic));
-        //polling
         while(true){
             ConsumerRecords<String,String> records=consumer.poll(Duration.ofMillis(100));
             for(ConsumerRecord<String,String> record: records){
