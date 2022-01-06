@@ -51,10 +51,7 @@ public class    consumer {
                 } else {
                     logger.info("Error");
                 }
-
             }
-
-
         }
     }
 }
